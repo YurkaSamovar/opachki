@@ -1,0 +1,30 @@
+logging:
+  level:
+    root: info
+  file:
+    name: logs.txt
+    path: /
+
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  datasource:
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
+    password: pass
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      open-in-view: false
+      hibernate:
+        show_sql: true
+        format_sql: true
+        hbm2ddl:
+          auto: validate
+app:
+  image:
+    bucket: C:\Users\yurka\IdeaProjects\resultat\src\main\resources\static\image
+
+
