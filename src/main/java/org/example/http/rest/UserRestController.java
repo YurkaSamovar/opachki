@@ -1,23 +1,18 @@
 package org.example.http.rest;
 
 import lombok.RequiredArgsConstructor;
-import org.example.database.entity.Role;
 import org.example.dto.PageResponse;
 import org.example.dto.UserCreatEditDto;
 import org.example.dto.UserDto;
 import org.example.dto.UserFilter;
-import org.example.service.CompanyService;
 import org.example.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RestController
 @RequestMapping("/api/v1/users")

@@ -20,9 +20,19 @@ public class FilterCardRepositoryImpl implements FilterCardRepository {
     @Override
     public List<Card> findAllByFilter(CardFilter filter) {
         var predicate = QPredicates.builder()
-                .add(filter.theme(), card.theme.id::eq)
+                .add(filter.theme(), theme -> {
+                    if(theme == 0)
+                        return card.theme.id.goe(0);
+                    else
+                        return card.theme.id.eq(theme);
+                } )
                 .add(filter.date(), card.date::eq)
-                .add(filter.prix(), prix -> card.prix.between(0, prix))
+                .add(filter.prix(), prix -> {
+                    if(prix < 0)
+                        return card.prix.goe(0);
+                    else
+                        return card.prix.loe(prix);
+                })
                 .build();
 
         return new JPAQuery<Card>(entityManager)

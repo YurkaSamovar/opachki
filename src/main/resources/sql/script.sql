@@ -1,3 +1,18 @@
+CREATE TABLE users(
+    id SERIAL PRIMARY KEY,
+    mail VARCHAR(128) NOT NULL UNIQUE,
+    username VARCHAR(128) NOT NULL UNIQUE,
+    password VARCHAR(128) DEFAULT '{noop}123',
+    firstname VARCHAR(128),
+    lastname VARCHAR(128),
+    birth_date DATE,
+    role VARCHAR(32)
+
+);
+
+ALTER TABLE users ADD avatar VARCHAR(128) DEFAULT 'opachki.jpg';
+ALTER TABLE users ALTER COLUMN role SET DEFAULT 'USER';
+
 CREATE TABLE theme
 (
     id   SERIAL,
@@ -14,11 +29,14 @@ CREATE TABLE card
     date        DATE         NOT NULL,
     adresse     VARCHAR(256),
     link        TEXT,
-    theme_id    INT REFERENCES theme (id)
+    theme_id    INT REFERENCES theme (id),
+    user_id     INT REFERENCES users (id)
 );
 
-insert into users(username, firstname, lastname, birth_date, role, company_id)
-VALUES ('zarob@zr.com', 'Oleg', 'Olegovixh', '2000-10-10', 'ADMIN', 1);
+insert into users(mail, username, firstname, lastname, birth_date, role)
+VALUES ('zarob@zr.com', 'zarob', 'Oleg', 'Olegovich', '2000-10-10', 'ADMIN'),
+       ('ivan@suka.com', 'ivan', 'Ivan', 'Ivanov', '2010-04-20', 'USER'),
+       ('petrova@pierre.fr', 'petr', 'Petouha', 'Petrovich', '1999-11-01', 'USER');
 
 INSERT INTO theme(name)
 VALUES ('Fêtes'),

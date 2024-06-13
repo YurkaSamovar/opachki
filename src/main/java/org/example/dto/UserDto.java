@@ -9,14 +9,15 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-@Value
 public class UserDto {
 
     Integer id;
+    String mail;
     String username;
+    String password;
     String firstname;
     String lastname;
     LocalDate birthDate;
     Role role;
-    CompanyDto companyId;
+    String avatar;
 }

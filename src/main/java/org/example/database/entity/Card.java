@@ -41,4 +41,9 @@ public class Card {
     @JoinColumn(name = "theme_id")
     private Theme theme;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+
 }

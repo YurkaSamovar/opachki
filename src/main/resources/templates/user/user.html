@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>User</title>
-    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 <form th:action="@{/users/{userId}/update(userId=${user.id})}" method="post" th:object="${user}">
@@ -23,16 +22,6 @@
     <div th:each="role : ${roles}">
         <input type="radio" th:id="${role}" name="role" th:value="${role}" th:checked="${role == user.role}" >
         <label th:for="${role}" th:text="${role}">Role name</label>
-    </div>
-    <div>
-        <lable for="company">Company:
-            <select name="companyId" id="company">
-                <option th:each="company : ${companies}"
-                        th:value="${company.id}"
-                        th:selected="${company.id == user.companyId.id}"
-                        th:text="${company.name}">Company</option>
-            </select>
-        </lable>
     </div>
     <button type="submit">Update</button>
 </form>

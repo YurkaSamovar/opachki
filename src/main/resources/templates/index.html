@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<html lang="en" xmlns:th="https://www.thymeleaf.org/"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-dark">
@@ -21,12 +22,18 @@
                     <a class="nav-link active text-white" aria-current="page" href="#">Accueil</a>
                 </li>
             </ul>
-            <a href="/event" class="mr-2">
-                <button class="btn btn-primary " type="submit">Ajouter un événement</button>
+            <div sec:authorize="isAuthenticated()">
+                <div th:insert="~{fragment/fragment.html :: header}"></div>
+                <form th:action="@{event/add}" method="get">
+                    <button class="btn btn-primary " type="submit">Ajouter un événement</button>
+                </form>
+                <form th:action="@{/users/account}">
+                    <button class="btn btn-warning" type="submit">Mon compte</button>
+                </form>
+            </div>
+            <a sec:authorize="!isAuthenticated()" href="login">
+                <button class="btn btn-warning" type="submit">Mon compte</button>
             </a>
-            <form class="d-flex" role="search">
-                <button class="btn btn-warning" type="submit">Régistrer</button>
-            </form>
         </div>
     </div>
 </nav>
@@ -40,24 +47,32 @@
                     <div class="row">
                         <label class="col-4" for="theme">Thèmes</label>
                         <select class="custom-select col" id="theme" name="theme" th:selected="3">
+                            <option value="0">All</option>
                             <option th:each="theme : ${themes}"
                                     th:value="${theme.id}"
                                     th:selected="(${filter.theme()} == *{theme.id})"
-                                    th:text="${theme.name}">theme</option>
+                                    th:text="${theme.name}">theme
+                            </option>
                         </select>
                     </div>
                     <div class="row mt-2">
                         <!-- Здесь можно использовать datetime-local -->
                         <label class="col-4" for="de">De</label>
-                        <input type="date" class="col" id="de" name="date" autocomplete="off" th:value="${filter.date()}">
+                        <input type="date" class="col" id="de" name="date" autocomplete="off"
+                               th:value="${filter.date()}">
                     </div>
                     <div class="row mt-2">
                         <label class="col-4" for="prix">Le prix</label>
                         <select class="custom-select col" id="prix" name="prix">
-                            <option value="0">Gratuitement</option>
-                            <option value="10">Jusqu'à 10</option>
-                            <option value="50">Jusqu'à 50</option>
-                            <option value="999999">plus de 100</option>
+                            <option th:if="${filter.prix() >= 100}" value="-1" selected>All</option>
+                            <option th:unless="${filter.prix() >= 100}" value="-1">All</option>
+                            <option th:if="${filter.prix() == 0}" value="0" selected>Gratuitement</option>
+                            <option th:unless="${filter.prix() == 0}" value="0">Gratuitement</option>
+                            <option th:if="${filter.prix() == 10}" value="10" selected>Jusqu'à 10</option>
+                            <option th:unless="${filter.prix() == 10}" value="10">Jusqu'à 10</option>
+                            <option th:if="${filter.prix() == 50}" value="50" selected>Jusqu'à 50</option>
+                            <option th:unless="${filter.prix() == 50}" value="50">Jusqu'à 50</option>
+
                         </select>
                     </div>
                     <button type="submit" class="btn btn-info col-12 mt-2">Fltrer</button>
@@ -65,23 +80,24 @@
             </div>
         </div>
         <div class="col-8 bg-warning">
+            <img th:src="@{/image/card/concert.jpg}" class="card-img-top" alt="артуха">
             <h2 class="text-center">Contenu</h2>
             <div class="row d-flex justify-content-around gy-3">
                 <div class="card col-5" th:each="card : ${cards}">
-                    <img th:src="@{'image/' + ${card.image}}" class="card-img-top" alt="артуха">
+                    <img th:src="@{'/image/card/' + ${card.image}}" class="card-img-top" alt="артуха">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${card.title}">Title</h5>
                         <p class="card-text" th:text="${card.description}">Description</p>
                         <p class="card-text" th:text="${card.prix}">Prix</p>
-                        <a href="#" class="btn btn-primary">En savoir plus</a>
+                        <a th:href="@{/event/{id}(id=${card.id})}" class="btn btn-primary">En savoir plus</a>
                     </div>
+                </div>
             </div>
+            <div class="col-1"></div>
         </div>
-        <div class="col-1"></div>
     </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
 </body>
 </html>

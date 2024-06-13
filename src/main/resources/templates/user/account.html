@@ -8,10 +8,6 @@
     <link rel="stylesheet" th:href="@{css/style.css}">
 </head>
 <body>
-<div style="color: red" th:if="${param.error}">
-    invalid usrname or password
-</div>
-
 <nav class="navbar navbar-expand-lg bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand text-white" href="#">Rechévén</a>
@@ -28,17 +24,18 @@
         </div>
     </div>
 </nav>
-<form action="/login" method="post">
-    <lable for="username">User mail:
-        <input type="text" id="username" name="username">
-    </lable><br>
-    <lable for="password">Password:
-        <input type="password" id="password" name="password">
-    </lable><br>
-    <button type="submit">Envoyer</button>
-</form>
-<form action="users/registration">
-    <button type="submit">Registration</button>
-</form>
+<div>
+    <img th:if="${user.avatar != null}" th:src="@{'/image/avatar/' + ${user.avatar}}" width="100" height="100">
+    <img th:unless="${user.avatar != null}" th:src="@{'/image/avatar/opachki.png'}" width="100" height="100">
+    <p th:text="${user.mail}">mail</p>
+    <p th:text="${user.username}">username</p>
+    <p th:text="${user.firstname}">firstname</p>
+    <p th:text="${user.lastname}">lastname</p>
+    <p th:text="${user.birthDate}">birthdate</p>
+    <a th:href="@{/users/account/{id}(id=${user.id})}">
+        <button class="btn btn-info col-12 mt-2">Envoyer</button>
+    </a>
+</div>
+
 </body>
 </html>

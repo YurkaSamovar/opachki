@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -22,7 +23,12 @@ public class User {
     private Integer id;
 
     @Column(nullable = false, unique = true)
+    private String mail;
+
+    @Column(nullable = false, unique = true)
     private String username;
+
+    private String password;
 
     private String firstname;
 
@@ -31,9 +37,9 @@ public class User {
     private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
+    @Value("USER")
     private Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
-    private Company company;
+    @Value("opachki.png")
+    private String avatar;
 }

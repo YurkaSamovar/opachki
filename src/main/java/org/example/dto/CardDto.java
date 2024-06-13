@@ -3,6 +3,7 @@ package org.example.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Value;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -20,4 +21,5 @@ public class CardDto {
     String adresse;
     String link;
     ThemeDto theme;
+    UserDto user;
 }

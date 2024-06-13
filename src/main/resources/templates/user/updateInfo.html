@@ -8,10 +8,6 @@
     <link rel="stylesheet" th:href="@{css/style.css}">
 </head>
 <body>
-<div style="color: red" th:if="${param.error}">
-    invalid usrname or password
-</div>
-
 <nav class="navbar navbar-expand-lg bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand text-white" href="#">Rechévén</a>
@@ -28,17 +24,14 @@
         </div>
     </div>
 </nav>
-<form action="/login" method="post">
-    <lable for="username">User mail:
-        <input type="text" id="username" name="username">
-    </lable><br>
-    <lable for="password">Password:
-        <input type="password" id="password" name="password">
-    </lable><br>
-    <button type="submit">Envoyer</button>
-</form>
-<form action="users/registration">
-    <button type="submit">Registration</button>
-</form>
+
+<div>
+    <form th:action="@{/users/account/}" method="post" th:object="${user}">
+        <label for="mail">Mail:
+            <input id="mail" type="email" name="mail" required>
+        </label><br>
+    </form>
+</div>
+
 </body>
 </html>

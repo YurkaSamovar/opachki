@@ -7,7 +7,7 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
+<body >
 <nav class="navbar navbar-expand-lg bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand text-white" href="#">Rechévén</a>
@@ -28,14 +28,39 @@
     </div>
 </nav>
 
-<div>
-    <h2 th:text="${card.title}">Title</h2>
-    <p th:text="${card.user.username}"></p>
-    <img th:src="@{'/image/card/' + ${card.image}}" class="card-img-top" alt="артуха">
-    <p>Prix: <span th:text="${card.prix}"></span></p>
-    <p>Description: <span th:text="${card.description}"></span></p>
-    <p>Date: <span th:text="${card.date}"></span></p>
-    <p>Adresse: <span th:text="${card.adresse}"></span></p>
+<div class="container bg-light">
+    <form action="/event/add" method="POST" enctype="multipart/form-data">
+        <span for="title">Title</span> <br>
+        <input type="text" class="form-control" aria-describedby="title" name="title" id="title">
+
+        <label for="image">Image</label> <br>
+        <input type="file" class="form-control" name="image" id="image">
+
+        <label class="col-4" for="prix">Le prix</label> <br>
+        <input type="number" class="form-controle" id="prix" name="prix"> <br>
+
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+
+        <label for="adresse">Date</label> <br>
+        <input type="date" class="form-control" aria-describedby="title" name="date" id="date">
+
+        <label for="adresse">Adresse</label> <br>
+        <input type="text" class="form-control" aria-describedby="title" name="adresse" id="adresse">
+
+        <label for="adresse">Link</label> <br>
+        <input type="text" class="form-control" aria-describedby="title" name="link" id="link">
+
+        <label for="adresse">Choisir la thème</label> <br>
+        <select class="custom-select col" id="theme" name="theme">
+            <option value="1">Fêtes</option>
+            <option value="2">Concert</option>
+            <option value="3">Art et culture</option>
+            <option value="4">Pour les enfants</option>
+        </select>
+
+        <button type="submit" class="btn btn-info col-12 mt-2">Crérer</button>
+    </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
